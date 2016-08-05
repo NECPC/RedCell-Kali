@@ -5,5 +5,5 @@ Red Teaming with Kali Linux. OS Customization, additional tools, and automated u
 ```
 git clone https://github.com/NECPC/RedCell-Kali.git
 cd RedCell-Kali
-./Kali_Updates.sh
+./RedCell-Kali.sh
 ```
