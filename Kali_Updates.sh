@@ -86,6 +86,7 @@ for script_name in \
 start_cobaltstrike.sh \
 start_cs_teamserver.sh \
 install_cobalt_strike.sh \
+RedCell-Kali.sh \
 Cobalt\ Strike\ Docs \
 Phishing Templates
 do
