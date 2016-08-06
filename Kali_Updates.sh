@@ -89,7 +89,7 @@ install_cobalt_strike.sh \
 Cobalt\ Strike\ Docs \
 Phishing Templates
 do
-ln -s $INSTALL_DIR/$script_name /$USER/Desktop/$script_name
+ln -s /$USER/Desktop/$script_name $INSTALL_DIR/$script_name 
 done
 
 # Install Oracle's Java 8 for Cobalt Strike
@@ -119,16 +119,16 @@ msfupdate
 # Configure postgresql to start on boot
 update-rc.d postgresql enable
 
-# Update packages
-apt-get update && apt-get upgrade && apt-get autoremove
-apt-get dist-upgrade && apt-get autoremove
-
 # Install extra packages
 apt-get install rarcrack
 apt-get install vmfs-tools
 apt-get install zerofree
 apt-get install ntpdate
 update-rc.d ntp enable
+
+# Update packages
+apt-get update && apt-get upgrade && apt-get autoremove
+apt-get dist-upgrade && apt-get autoremove
 
 #Clean up package repo
 #apt-get clean
