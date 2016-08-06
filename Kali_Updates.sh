@@ -87,8 +87,8 @@ start_cobaltstrike.sh \
 start_cs_teamserver.sh \
 install_cobalt_strike.sh \
 RedCell-Kali.sh \
-Cobalt\\\ Strike\\\ Docs \
-Phishing\\\ Templates
+'Cobalt\ Strike\ Docs' \
+"Phishing\ Templates"
 do
 ln -s $INSTALL_DIR/$script_name /$USER/Desktop/$script_name
 done
@@ -121,10 +121,13 @@ msfupdate
 update-rc.d postgresql enable
 
 # Install extra packages
-apt-get install rarcrack
-apt-get install vmfs-tools
-apt-get install zerofree
-apt-get install ntpdate
+apt-get install \
+rarcrack \
+vmfs-tools \
+zerofree \
+ntpdate
+
+# Ensure ntp service runs at bootup
 update-rc.d ntp enable
 
 # Update packages
