@@ -87,8 +87,8 @@ start_cobaltstrike.sh \
 start_cs_teamserver.sh \
 install_cobalt_strike.sh \
 RedCell-Kali.sh \
-'Cobalt\\\ Strike\\\ Docs' \
-"Phishing\\\ Templates"
+Cobalt\ Strike\ Docs \
+Phishing\ Templates
 do
 	if [ -e "/$USER/Desktop/$script_name" ]; then
 		rm -f "/$USER/Desktop/$script_name"
