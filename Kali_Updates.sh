@@ -6,13 +6,10 @@
 #              https://www.cobaltstrike.com/download
 # Last updated: 05 AUG 2016
 
-# Because I want a pause button...
-function pause(){
-	read -p "$*"
-}
+source $INSTALL_DIR/functions.sh
 
 # Check active resolution
-# I might detect resolution and change it only if it's the default 800x600
+# I might detect resolution and change it only if it's the default 800x600, because that's annoyingly small.
 current_resolution=$(xrandr --current | head -1 | cut -d"," -f2 | sed 's/\ //g' | sed 's/current//g')
 if [ "$current_resolution" == "800x600" ]; then
 	echo "currently set to 800x600"
@@ -32,40 +29,42 @@ sed -i 's/^#alias la=/alias la=/' ~/.bashrc
 sed -i 's/^#alias l=/alias l=/' ~/.bashrc
 
 # Create Cobalt Strike Addon directory and setup git clones
-if ! [ -e /root/Desktop/cobaltstrike-addons ]; then mkdir /root/Desktop/cobaltstrike-addons; fi
+if ! [ -d /opt/cobaltstrike-addons ]; then 
+	mkdir /opt/cobaltstrike-addons
+fi
 
 # CobaltStrike's "Cortana" scripts (renamed to Aggressor Scripts in Cobalt Strike 3.x)
-if [ -e /root/Desktop/cobaltstrike-addons/cortana-scripts ]; then
-	cd /root/Desktop/cobaltstrike-addons/cortana-scripts
+if [ -d /opt/cobaltstrike-addons/cortana-scripts ]; then
+	cd /opt/cobaltstrike-addons/cortana-scripts
 	git pull
 else
-	cd /root/Desktop/cobaltstrike-addons/
+	cd /opt/cobaltstrike-addons/
 	git clone https://github.com/rsmudge/cortana-scripts.git
 fi
 
 # CobaltStrike's Malleable-C2-Profiles
-if [ -e /root/Desktop/cobaltstrike-addons/Malleable-C2-Profiles ]; then
-	cd /root/Desktop/cobaltstrike-addons/Malleable-C2-Profiles
+if [ -d /opt/cobaltstrike-addons/Malleable-C2-Profiles ]; then
+	cd /opt/cobaltstrike-addons/Malleable-C2-Profiles
 	git pull
 else
-	cd /root/Desktop/cobaltstrike-addons/
+	cd /opt/cobaltstrike-addons/
 	git clone https://github.com/rsmudge/Malleable-C2-Profiles.git
 fi
 
 # Veil-Evasion
-if [ -e /root/Desktop/Veil-Evasion ]; then
-	cd /root/Desktop/Veil-Evasion
+if [ -d /opt/Veil-Evasion ]; then
+	cd /opt/Veil-Evasion
 	git pull
 	#cd setup
 	#./setup.sh -s
 else
-	cd /root/Desktop/
+	cd /opt/
 	git clone https://github.com/Veil-Framework/Veil-Evasion.git
 	cd Veil-Evasion/setup
 	./setup.sh -s
 fi
 
-# Ensure that this script can be run by double-clicking it from the desktop
+# Ensure that scripts can be run by double-clicking it from the desktop
 gsettings set org.gnome.nautilus.preferences executable-text-activation ask
 
 # Disable the locking screensaver
@@ -82,8 +81,17 @@ gsettings set org.gnome.desktop.session idle-delay 0
 # A couple other UI tweaks
 gsettings set org.gnome.desktop.interface clock-show-date true
 
-# Install ZeroFree for VM disk consolidation (now comes pre-installed on Kali)
-#apt-get install zerofree
+# Create symlinks on the desktop for helpful shortcuts
+for script_name in \
+start_cobaltstrike.sh \
+start_cs_teamserver.sh \
+install_cobalt_strike.sh \
+Cobalt\ Strike\ Docs \
+Phishing Templates \
+
+do
+ln -s $INSTALL_DIR/$script_name /$USER/Desktop/$script_name
+done
 
 # Install Oracle's Java 8 for Cobalt Strike
 if ! [ -f /etc/apt/sources.list.d/webupd8team-java.list ]; then
@@ -95,8 +103,11 @@ EOF
 	apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886 
 	apt-get update
 	apt-get install oracle-java8-installer
-	rm -f /etc/apt/sources.list.d/1
+	#rm -f /etc/apt/sources.list.d/1
 fi
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886 
+apt-get update
+apt-get install oracle-java8-installer
 
 # Tell Kali Linux to use Java 8 by default for CobaltStrike
 update-java-alternatives -s java-8-oracle
@@ -115,11 +126,13 @@ apt-get dist-upgrade && apt-get autoremove
 
 # Install extra packages
 apt-get install rarcrack
+apt-get install vmfs-tools
+apt-get install zerofree
 apt-get install ntpdate
 update-rc.d ntp enable
 
 #Clean up package repo
-apt-get clean
+#apt-get clean
 
 echo ""
 echo ""
