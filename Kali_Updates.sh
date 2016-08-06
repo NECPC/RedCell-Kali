@@ -87,10 +87,14 @@ start_cobaltstrike.sh \
 start_cs_teamserver.sh \
 install_cobalt_strike.sh \
 RedCell-Kali.sh \
-'Cobalt\ Strike\ Docs' \
-"Phishing\ Templates"
+'Cobalt\\\ Strike\\\ Docs' \
+"Phishing\\\ Templates"
 do
-ln -s $INSTALL_DIR/$script_name /$USER/Desktop/$script_name
+	if [ -e /$USER/Desktop/$script_name ]; then
+		rm -f /$USER/Desktop/$script_name
+	fi
+	
+	ln -s $INSTALL_DIR/$script_name /$USER/Desktop/$script_name
 done
 
 # Install Oracle's Java 8 for Cobalt Strike
