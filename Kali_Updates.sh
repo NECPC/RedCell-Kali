@@ -61,7 +61,7 @@ else
 	cd /opt/
 	git clone https://github.com/Veil-Framework/Veil-Evasion.git
 	cd Veil-Evasion/setup
-	./setup.sh -s
+	#./setup.sh -s
 fi
 
 # Ensure that scripts can be run by double-clicking it from the desktop
@@ -87,8 +87,7 @@ start_cobaltstrike.sh \
 start_cs_teamserver.sh \
 install_cobalt_strike.sh \
 Cobalt\ Strike\ Docs \
-Phishing Templates \
-
+Phishing Templates
 do
 ln -s $INSTALL_DIR/$script_name /$USER/Desktop/$script_name
 done
