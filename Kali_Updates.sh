@@ -61,7 +61,7 @@ else
 	cd /opt/
 	git clone https://github.com/Veil-Framework/Veil-Evasion.git
 	cd Veil-Evasion/setup
-	./setup.sh -s
+	#./setup.sh -s
 fi
 
 # Ensure that scripts can be run by double-clicking it from the desktop
@@ -86,11 +86,15 @@ for script_name in \
 start_cobaltstrike.sh \
 start_cs_teamserver.sh \
 install_cobalt_strike.sh \
+RedCell-Kali.sh \
 Cobalt\ Strike\ Docs \
-Phishing Templates \
-
+Phishing\ Templates
 do
-ln -s $INSTALL_DIR/$script_name /$USER/Desktop/$script_name
+	if [ -e "/$USER/Desktop/$script_name" ]; then
+		rm -f "/$USER/Desktop/$script_name"
+	fi
+	
+	ln -s "$INSTALL_DIR/$script_name" "/$USER/Desktop/$script_name"
 done
 
 # Install Oracle's Java 8 for Cobalt Strike
@@ -120,16 +124,19 @@ msfupdate
 # Configure postgresql to start on boot
 update-rc.d postgresql enable
 
+# Install extra packages
+apt-get install \
+rarcrack \
+vmfs-tools \
+zerofree \
+ntpdate
+
+# Ensure ntp service runs at bootup
+update-rc.d ntp enable
+
 # Update packages
 apt-get update && apt-get upgrade && apt-get autoremove
 apt-get dist-upgrade && apt-get autoremove
-
-# Install extra packages
-apt-get install rarcrack
-apt-get install vmfs-tools
-apt-get install zerofree
-apt-get install ntpdate
-update-rc.d ntp enable
 
 #Clean up package repo
 #apt-get clean
